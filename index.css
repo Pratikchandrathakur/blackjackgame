@@ -2,28 +2,285 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
     background-image: url("images/table.png");
     background-size: cover;
+    background-attachment: fixed;
     font-weight: bold;
     color: white;
     text-align: center;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
+/* Screen Management */
+.screen {
+    display: block;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Typography */
 h1 {
     color: goldenrod;
+    font-size: 3em;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Setup Screen Styles */
+.setup-form {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    padding: 40px;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    border: 2px solid goldenrod;
+}
+
+.input-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: goldenrod;
+    font-size: 1.1em;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #016f32;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    background: rgba(255,255,255,0.95);
+    color: #016f32;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: goldenrod;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Game Screen Styles */
+.player-info {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: inline-block;
+    border: 1px solid goldenrod;
+}
+
+.game-area {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 #message-el {
     font-style: italic;
+    font-size: 1.3em;
+    margin: 20px 0;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
 }
 
+/* Cards Display */
+#cards-container {
+    margin: 30px 0;
+}
+
+#cards-el {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+}
+
+.cards-visual {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+    min-height: 120px;
+    align-items: center;
+}
+
+.card {
+    width: 80px;
+    height: 110px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    position: relative;
+    animation: dealCard 0.5s ease-out;
+    font-weight: bold;
+    color: #000;
+}
+
+.card.red {
+    color: #d32f2f;
+}
+
+.card.black {
+    color: #000;
+}
+
+.card-value {
+    font-size: 1.2em;
+    line-height: 1;
+}
+
+.card-suit {
+    font-size: 1.5em;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-value-bottom {
+    font-size: 1.2em;
+    line-height: 1;
+    transform: rotate(180deg);
+    text-align: right;
+}
+
+@keyframes dealCard {
+    from {
+        transform: translateY(-100px) rotate(180deg);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+#sum-el {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: goldenrod;
+    margin: 20px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+/* Betting Controls */
+.betting-controls {
+    margin: 20px 0;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.betting-controls label {
+    color: goldenrod;
+    margin-right: 10px;
+    font-size: 1.1em;
+}
+
+.betting-controls input {
+    padding: 8px 12px;
+    border: 2px solid #016f32;
+    border-radius: 5px;
+    font-weight: bold;
+    background: rgba(255,255,255,0.95);
+    color: #016f32;
+    font-size: 1em;
+}
+
+/* Button Styles */
 button {
     color: #016f32;
-    width: 150px;
     background: goldenrod;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 12px 24px;
     font-weight: bold;
     border: none;
-    border-radius: 2px;
-    margin-bottom: 2px;
-    margin-top: 2px;
+    border-radius: 8px;
+    margin: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+button:hover {
+    background: #ffd700;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.setup-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.3em;
+    margin-top: 20px;
+}
+
+.game-controls {
+    margin-top: 20px;
+}
+
+.game-btn {
+    min-width: 150px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+    }
+    
+    .setup-form {
+        padding: 25px;
+        max-width: 350px;
+    }
+    
+    .cards-visual {
+        gap: 8px;
+    }
+    
+    .card {
+        width: 70px;
+        height: 95px;
+        padding: 6px;
+    }
+    
+    .card-value, .card-value-bottom {
+        font-size: 1em;
+    }
+    
+    .card-suit {
+        font-size: 1.3em;
+    }
 }
