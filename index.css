@@ -1,29 +1,439 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
-    background-image: url("images/table.png");
-    background-size: cover;
+    background: linear-gradient(135deg, #0f4c3a 0%, #1a6b4a 50%, #0f4c3a 100%);
+    background-attachment: fixed;
     font-weight: bold;
     color: white;
     text-align: center;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-h1 {
+/* Screen Management */
+.screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Setup Screen Styles */
+.setup-container {
+    background: rgba(0, 0, 0, 0.8);
+    border: 3px solid goldenrod;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    animation: glow 2s ease-in-out infinite alternate;
+    max-width: 500px;
+    width: 100%;
+}
+
+.casino-title {
     color: goldenrod;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: sparkle 1.5s ease-in-out infinite alternate;
 }
 
-#message-el {
-    font-style: italic;
+.setup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
-button {
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group label {
+    font-size: 1.2rem;
+    color: goldenrod;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+#player-name {
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 2px solid goldenrod;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
     color: #016f32;
-    width: 150px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#player-name:focus {
+    outline: none;
+    border-color: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    transform: scale(1.02);
+}
+
+.chips-selection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.chip-btn {
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid goldenrod;
+    border-radius: 10px;
+    background: rgba(255, 215, 0, 0.2);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chip-btn:hover {
+    background: rgba(255, 215, 0, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+}
+
+.chip-btn.selected {
     background: goldenrod;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    color: #016f32;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+.enter-btn {
+    padding: 20px 40px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background: linear-gradient(45deg, goldenrod, #ffd700);
+    color: #016f32;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.enter-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* Game Screen Styles */
+.game-container {
+    width: 100%;
+    max-width: 1200px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid goldenrod;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.game-title {
+    color: goldenrod;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+}
+
+.player-info {
+    margin-bottom: 20px;
+}
+
+.player-display {
+    background: linear-gradient(45deg, #016f32, #0f4c3a);
+    border: 2px solid goldenrod;
+    border-radius: 15px;
+    padding: 15px 30px;
+    display: inline-block;
+    font-size: 1.3rem;
+    color: goldenrod;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.message-container {
+    margin-bottom: 10px;
+}
+
+.game-message {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: #ffd700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    min-height: 2rem;
+    transition: all 0.3s ease;
+}
+
+.game-message.win {
+    color: #4CAF50;
+    animation: celebrate 0.5s ease-in-out;
+}
+
+.game-message.lose {
+    color: #f44336;
+    animation: shake 0.5s ease-in-out;
+}
+
+.game-message.blackjack {
+    color: goldenrod;
+    animation: sparkle 0.8s ease-in-out infinite alternate;
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cards-section h3 {
+    color: goldenrod;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.cards-display {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 120px;
+    align-items: center;
+}
+
+.card {
+    width: 80px;
+    height: 112px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    border: 2px solid #333;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: dealCard 0.5s ease-out;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+.card.red {
+    color: #d32f2f;
+}
+
+.card.black {
+    color: #333;
+}
+
+.card-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.card-suit {
+    font-size: 1.5rem;
+}
+
+.sum-section {
+    display: flex;
+    justify-content: center;
+}
+
+.sum-display {
+    background: linear-gradient(45deg, #333, #555);
+    border: 2px solid goldenrod;
+    border-radius: 15px;
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    color: goldenrod;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.game-btn {
+    padding: 15px 25px;
+    font-size: 1.1rem;
     font-weight: bold;
     border: none;
-    border-radius: 2px;
-    margin-bottom: 2px;
-    margin-top: 2px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    min-width: 150px;
+}
+
+.game-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.game-btn.primary {
+    background: linear-gradient(45deg, goldenrod, #ffd700);
+    color: #016f32;
+    border: 2px solid #b8860b;
+}
+
+.game-btn.secondary {
+    background: linear-gradient(45deg, #016f32, #0f4c3a);
+    color: goldenrod;
+    border: 2px solid goldenrod;
+}
+
+.game-btn.restart {
+    background: linear-gradient(45deg, #555, #777);
+    color: white;
+    border: 2px solid #888;
+}
+
+.game-btn:not(:disabled):hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.game-btn.primary:not(:disabled):hover {
+    box-shadow: 0 8px 16px rgba(255, 215, 0, 0.4);
+}
+
+.game-btn.secondary:not(:disabled):hover {
+    box-shadow: 0 8px 16px rgba(255, 215, 0, 0.3);
+}
+
+/* Animations */
+@keyframes glow {
+    from { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+    to { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+}
+
+@keyframes sparkle {
+    from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); }
+    to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.8); }
+}
+
+@keyframes dealCard {
+    from { 
+        opacity: 0; 
+        transform: translateY(-50px) rotateY(90deg); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) rotateY(0deg); 
+    }
+}
+
+@keyframes celebrate {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .casino-title {
+        font-size: 2rem;
+    }
+    
+    .game-title {
+        font-size: 2.5rem;
+    }
+    
+    .setup-container {
+        padding: 30px 20px;
+    }
+    
+    .game-container {
+        padding: 20px;
+    }
+    
+    .chips-selection {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .game-btn {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .card {
+        width: 70px;
+        height: 98px;
+        font-size: 1rem;
+    }
+    
+    .card-suit {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .casino-title {
+        font-size: 1.8rem;
+    }
+    
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .player-display {
+        font-size: 1.1rem;
+        padding: 10px 20px;
+    }
+    
+    .game-message {
+        font-size: 1.2rem;
+    }
+    
+    .sum-display {
+        font-size: 1.3rem;
+        padding: 10px 20px;
+    }
 }
