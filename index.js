@@ -121,13 +121,36 @@ function startGame() {
     let secondCard = getRandomCard()
     cards = [firstCard.value, secondCard.value]
     cardDetails = [firstCard, secondCard]
-    sum = firstCard.value + secondCard.value
     
     updatePlayerDisplay()
     renderGame()
 }
 
+function calculateSum() {
+    let tempSum = 0
+    let aces = 0
+    
+    // Count all cards and track aces
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i] === 11) {
+            aces++
+        }
+        tempSum += cards[i]
+    }
+    
+    // Convert aces from 11 to 1 if needed to avoid busting
+    while (tempSum > 21 && aces > 0) {
+        tempSum -= 10 // Convert an ace from 11 to 1
+        aces--
+    }
+    
+    return tempSum
+}
+
 function renderGame() {
+    // Recalculate sum with smart ace handling
+    sum = calculateSum()
+    
     // Clear previous cards
     cardsDisplay.innerHTML = ''
     
@@ -149,15 +172,29 @@ function renderGame() {
     if (sum <= 20) {
         message = "Do you want to draw a new card?"
     } else if (sum === 21) {
-        message = "You've got Blackjack! 🎉"
-        hasBlackJack = true
-        player.chips += currentBet * 1.5 // Blackjack pays 3:2
+        if (cards.length === 2) {
+            message = "You've got Blackjack! 🎉"
+            hasBlackJack = true
+            player.chips += Math.floor(currentBet * 1.5) // Blackjack pays 3:2
+        } else {
+            message = "You got 21! You win! 🎉"
+            player.chips += currentBet
+        }
+        isAlive = false
         updatePlayerDisplay()
     } else {
         message = "You're out of the game! 😞"
         isAlive = false
         player.chips -= currentBet
         updatePlayerDisplay()
+        
+        // Check if player is out of money
+        if (player.chips < 10) {
+            setTimeout(() => {
+                alert("You're out of chips! Refreshing for a new game...")
+                location.reload()
+            }, 1000)
+        }
     }
     
     messageEl.textContent = message
@@ -167,19 +204,9 @@ function newCard() {
     if (isAlive === true && hasBlackJack === false) {
         let newCardObj = getRandomCard()
         let cardValue = newCardObj.value
-        sum += cardValue
         cards.push(cardValue)
         cardDetails.push(newCardObj)
         renderGame()
-        
-        // Check if player won or lost after drawing
-        if (sum === 21) {
-            player.chips += currentBet
-            updatePlayerDisplay()
-        } else if (sum > 21) {
-            player.chips -= currentBet
-            updatePlayerDisplay()
-        }
     }
 }
 
